@@ -202,6 +202,8 @@
         <source-file
             src="src/android/notification/TriggerReceiver.java"
             target-dir="src/de/appplant/cordova/plugin/notification" />
+            
+        <source-file src="src/assets/icon.png" target-dir="res/drawable" />
 
     </platform>
 
