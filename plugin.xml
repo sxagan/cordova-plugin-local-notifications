@@ -71,6 +71,8 @@
         <header-file src="src/ios/UILocalNotification+APPLocalNotification.h" />
         <source-file src="src/ios/UILocalNotification+APPLocalNotification.m" />
 
+        <source-file src="src/assets/icon.png" target-dir="res/drawable" />
+
         <hook
             type="after_platform_add"
             src="scripts/ios/didRegisterUserNotificationSettings.js" />
