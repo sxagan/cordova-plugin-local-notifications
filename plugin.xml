@@ -71,7 +71,6 @@
         <header-file src="src/ios/UILocalNotification+APPLocalNotification.h" />
         <source-file src="src/ios/UILocalNotification+APPLocalNotification.m" />
 
-        <source-file src="src/assets/icon.png" target-dir="res/drawable" />
 
         <hook
             type="after_platform_add"
@@ -203,7 +202,6 @@
             src="src/android/notification/TriggerReceiver.java"
             target-dir="src/de/appplant/cordova/plugin/notification" />
             
-        <source-file src="src/assets/icon.png" target-dir="res/drawable" />
 
     </platform>
 
