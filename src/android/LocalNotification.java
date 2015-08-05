@@ -132,8 +132,14 @@ public class LocalNotification extends CordovaPlugin {
                             final CallbackContext command) throws JSONException {
 
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
-
-        cordova.getThreadPool().execute(new Runnable() {
+        ExecutorService tp = cordova.getThreadPool();
+        if (tp == null) {
+            throw new Error("execute => cordova.getThreadPool() returned null")
+        }
+        if (command == null) {
+            throw new Error("execute => command is null")
+        }
+        tp.execute(new Runnable() {
             public void run() {
                 if (action.equals("schedule")) {
                     schedule(args);
