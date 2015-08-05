@@ -134,10 +134,10 @@ public class LocalNotification extends CordovaPlugin {
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         ExecutorService tp = cordova.getThreadPool();
         if (tp == null) {
-            throw new Error("execute => cordova.getThreadPool() returned null")
+            throw new Error("execute => cordova.getThreadPool() returned null");
         }
         if (command == null) {
-            throw new Error("execute => command is null")
+            throw new Error("execute => command is null");
         }
         tp.execute(new Runnable() {
             public void run() {
