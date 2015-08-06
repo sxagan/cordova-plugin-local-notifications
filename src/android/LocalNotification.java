@@ -38,7 +38,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.*;
 
 import de.appplant.cordova.plugin.notification.Manager;
 import de.appplant.cordova.plugin.notification.Notification;
@@ -53,6 +52,8 @@ public class LocalNotification extends CordovaPlugin {
 
     // Reference to the web view for static access
     private static CordovaWebView webView = null;
+
+    private static CordovaInterface cordova = null;
 
     // Indicates if the device is ready (to receive events)
     private static Boolean deviceready = false;
@@ -73,6 +74,7 @@ public class LocalNotification extends CordovaPlugin {
     @Override
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         LocalNotification.webView = super.webView;
+        LocalNotification.cordova = cordova;
     }
 
     /**
@@ -134,14 +136,14 @@ public class LocalNotification extends CordovaPlugin {
 
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         if (cordova == null) {
-            throw new Error("execute => cordova is null");
+            throw new Error("execute => cordova is null")
         }
         ExecutorService tp = cordova.getThreadPool();
         if (tp == null) {
-            throw new Error("execute => cordova.getThreadPool() returned null");
+            throw new Error("execute => cordova.getThreadPool() returned null")
         }
         if (command == null) {
-            throw new Error("execute => command is null");
+            throw new Error("execute => command is null")
         }
         tp.execute(new Runnable() {
             public void run() {
