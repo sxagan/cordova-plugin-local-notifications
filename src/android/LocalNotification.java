@@ -38,7 +38,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent;
+import java.util.concurrent.*;
 
 import de.appplant.cordova.plugin.notification.Manager;
 import de.appplant.cordova.plugin.notification.Notification;
@@ -133,6 +133,9 @@ public class LocalNotification extends CordovaPlugin {
                             final CallbackContext command) throws JSONException {
 
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
+        if (cordova == null) {
+            throw new Error("execute => cordova is null");
+        }
         ExecutorService tp = cordova.getThreadPool();
         if (tp == null) {
             throw new Error("execute => cordova.getThreadPool() returned null");
