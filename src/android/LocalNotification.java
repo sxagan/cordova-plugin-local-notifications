@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
 
 import de.appplant.cordova.plugin.notification.Manager;
 import de.appplant.cordova.plugin.notification.Notification;
@@ -136,14 +137,14 @@ public class LocalNotification extends CordovaPlugin {
 
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         if (cordova == null) {
-            throw new Error("execute => cordova is null")
+            throw new Error("execute => cordova is null");
         }
         ExecutorService tp = cordova.getThreadPool();
         if (tp == null) {
-            throw new Error("execute => cordova.getThreadPool() returned null")
+            throw new Error("execute => cordova.getThreadPool() returned null");
         }
         if (command == null) {
-            throw new Error("execute => command is null")
+            throw new Error("execute => command is null");
         }
         tp.execute(new Runnable() {
             public void run() {
@@ -573,15 +574,16 @@ public class LocalNotification extends CordovaPlugin {
         }
         Runnable jsLoader = new Runnable() {
             public void run() {
-                webView.loadUrl("javascript:" + js);
+                LocalNotification.webView.loadUrl("javascript:" + js);
             }
         };
         try {
-            Method post = webView.getClass().getMethod("post",Runnable.class);
-            post.invoke(webView,jsLoader);
+            Method post = LocalNotification.webView.getClass().getMethod("post",Runnable.class);
+            post.invoke(LocalNotification.webView,jsLoader);
         } catch(Exception e) {
-
-            ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
+            throw e;
+            ((Activity)(LocalNotification.webView.getContext())).runOnUiThread(jsLoader);
+            //cordova.getActivity().runOnUiThread(jsLoader);
         }
     }
 
