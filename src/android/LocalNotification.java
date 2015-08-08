@@ -581,7 +581,7 @@ public class LocalNotification extends CordovaPlugin {
             Method post = LocalNotification.webView.getClass().getMethod("post",Runnable.class);
             post.invoke(LocalNotification.webView,jsLoader);
         } catch(Exception e) {
-            throw e;
+            // throw e;
             ((Activity)(LocalNotification.webView.getContext())).runOnUiThread(jsLoader);
             //cordova.getActivity().runOnUiThread(jsLoader);
         }
