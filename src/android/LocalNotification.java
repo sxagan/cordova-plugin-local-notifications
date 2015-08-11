@@ -135,8 +135,8 @@ public class LocalNotification extends CordovaPlugin {
     public boolean execute (final String action, final JSONArray args,
                             final CallbackContext command) throws JSONException {
 
-        LocalNotification.webView = super.webView;
-        LocalNotification.cordova = super.cordova;
+        // LocalNotification.webView = super.webView;
+        // LocalNotification.cordova = super.cordova;
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         if (cordova == null) {
             throw new Error("execute => cordova is null");
