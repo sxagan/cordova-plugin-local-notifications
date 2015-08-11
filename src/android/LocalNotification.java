@@ -574,17 +574,16 @@ public class LocalNotification extends CordovaPlugin {
         }
         Runnable jsLoader = new Runnable() {
             public void run() {
-                // LocalNotification.webView.loadUrl("javascript:" + js);
-                webView.loadUrl("javascript:" + js);
+                LocalNotification.webView.loadUrl("javascript:" + js);
             }
         };
         try {
             Method post = LocalNotification.webView.getClass().getMethod("post",Runnable.class);
             post.invoke(LocalNotification.webView,jsLoader);
         } catch(Exception e) {
-            // throw e;
-            // ((Activity)(LocalNotification.webView.getContext())).runOnUiThread(jsLoader);
-            cordova.getActivity().runOnUiThread(jsLoader);
+            //throw e;
+            //((Activity)(LocalNotification.webView.getContext())).runOnUiThread(jsLoader);
+            LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
         }
     }
 
