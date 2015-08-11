@@ -582,7 +582,7 @@ public class LocalNotification extends CordovaPlugin {
      * @param js
      *       JS code snippet as string
      */
-    private static synchronized void sendJavascript(final String js, CordovaWebView webView, CordovaInterface cordova) {
+    private static synchronized void sendJavascript(final String js, final CordovaWebView webView, final CordovaInterface cordova) {
 
         if (!deviceready) {
             eventQueue.add(js);
