@@ -74,8 +74,8 @@ public class LocalNotification extends CordovaPlugin {
      */
     @Override
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
-        LocalNotification.webView = super.webView;
-        LocalNotification.cordova = cordova;
+        //LocalNotification.webView = super.webView;
+        //LocalNotification.cordova = cordova;
     }
 
     /**
@@ -135,6 +135,8 @@ public class LocalNotification extends CordovaPlugin {
     public boolean execute (final String action, final JSONArray args,
                             final CallbackContext command) throws JSONException {
 
+        LocalNotification.webView = super.webView;
+        LocalNotification.cordova = super.cordova;
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         if (cordova == null) {
             throw new Error("execute => cordova is null");
@@ -535,7 +537,7 @@ public class LocalNotification extends CordovaPlugin {
      *      The event name
      */
     private void fireEvent (String event) {
-        fireEvent(event, null);
+        fireEvent(event, null,webView,cordova);
     }
 
     /**
@@ -546,6 +548,20 @@ public class LocalNotification extends CordovaPlugin {
      * @param notification
      *      Optional local notification to pass the id and properties.
      */
+    static void fireEvent (String event, Notification notification, CordovaWebView webView, CordovaInterface cordova) {
+        String state = getApplicationState();
+        String params = "\"" + state + "\"";
+
+        if (notification != null) {
+            params = notification.toString() + "," + params;
+        }
+
+        String js = "cordova.plugins.notification.local.core.fireEvent(" +
+                "\"" + event + "\"," + params + ")";
+
+        sendJavascript(js,webView,cordova);
+    }
+
     static void fireEvent (String event, Notification notification) {
         String state = getApplicationState();
         String params = "\"" + state + "\"";
@@ -566,6 +582,28 @@ public class LocalNotification extends CordovaPlugin {
      * @param js
      *       JS code snippet as string
      */
+    private static synchronized void sendJavascript(final String js, CordovaWebView webView, CordovaInterface cordova) {
+
+        if (!deviceready) {
+            eventQueue.add(js);
+            return;
+        }
+        if(webView != null){
+            Runnable jsLoader = new Runnable() {
+                public void run() {
+                    webView.loadUrl("javascript:" + js);
+                }
+            };
+            try {
+                Method post = webView.getClass().getMethod("post",Runnable.class);
+                post.invoke(webView,jsLoader);
+            } catch(Exception e) {
+                //throw e;
+                ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
+                ///LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
+            }
+        }
+    }
     private static synchronized void sendJavascript(final String js) {
 
         if (!deviceready) {
@@ -574,16 +612,16 @@ public class LocalNotification extends CordovaPlugin {
         }
         Runnable jsLoader = new Runnable() {
             public void run() {
-                LocalNotification.webView.loadUrl("javascript:" + js);
+                webView.loadUrl("javascript:" + js);
             }
         };
         try {
-            Method post = LocalNotification.webView.getClass().getMethod("post",Runnable.class);
-            post.invoke(LocalNotification.webView,jsLoader);
+            Method post = webView.getClass().getMethod("post",Runnable.class);
+            post.invoke(webView,jsLoader);
         } catch(Exception e) {
             //throw e;
-            //((Activity)(LocalNotification.webView.getContext())).runOnUiThread(jsLoader);
-            LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
+            ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
+            ///LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
         }
     }
 
