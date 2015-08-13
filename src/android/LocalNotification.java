@@ -76,6 +76,8 @@ public class LocalNotification extends CordovaPlugin {
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = cordova;
+        this.webView = webView;
+        this.cordova = cordova
     }
 
     /**
