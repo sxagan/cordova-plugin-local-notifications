@@ -25,6 +25,7 @@ package de.appplant.cordova.plugin.localnotification;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -76,8 +77,22 @@ public class LocalNotification extends CordovaPlugin {
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = cordova;
-        this.webView = webView;
-        this.cordova = cordova;
+        if(this.webView == null){
+            Log.d("localNotification","initialize - referencing instance webView");
+            this.webView = webView;
+        }
+        if(this.cordova == null){
+            Log.d("localNotification","initialize - referencing instance cordova");
+            this.cordova = cordova;
+        }
+        if(LocalNotification.webView == null){
+            Log.d("localNotification","initialize - referencing static webView");
+            LocalNotification.webView = webView;
+        }
+        if(LocalNotification.cordova == null){
+            Log.d("localNotification","initialize - referencing static cordova");
+            LocalNotification.cordova = cordova;
+        }
     }
 
     /**
@@ -141,14 +156,17 @@ public class LocalNotification extends CordovaPlugin {
         //LocalNotification.cordova = super.cordova;
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         if (cordova == null) {
-            throw new Error("execute => cordova is null");
+            Log.e("localNotification","execute - instance cordova is null");
+            //throw new Error("execute => cordova is null");
         }
         ExecutorService tp = cordova.getThreadPool();
         if (tp == null) {
-            throw new Error("execute => cordova.getThreadPool() returned null");
+            Log.e("localNotification","execute - cordova.getThreadPool() is null");
+            //throw new Error("execute => cordova.getThreadPool() returned null");
         }
         if (command == null) {
-            throw new Error("execute => command is null");
+            Log.e("localNotification","execute - CallbackContext is null");
+            //throw new Error("execute => command is null");
         }
         tp.execute(new Runnable() {
             public void run() {
@@ -605,6 +623,8 @@ public class LocalNotification extends CordovaPlugin {
                 ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
                 ///LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
             }
+        }else{
+            Log.e("localNotification","sendJavascript - static webView is null");
         }
     }
     private static synchronized void sendJavascript(final String js) {
@@ -613,19 +633,24 @@ public class LocalNotification extends CordovaPlugin {
             eventQueue.add(js);
             return;
         }
-        Runnable jsLoader = new Runnable() {
-            public void run() {
-                webView.loadUrl("javascript:" + js);
-            }
-        };
-        try {
-            Method post = webView.getClass().getMethod("post",Runnable.class);
-            post.invoke(webView,jsLoader);
-        } catch(Exception e) {
-            //throw e;
-            ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
-            ///LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
+        if(webView != null){
+            Runnable jsLoader = new Runnable() {
+                public void run() {
+                    webView.loadUrl("javascript:" + js);
+                }
+            };
+            try {
+                Method post = webView.getClass().getMethod("post",Runnable.class);
+                post.invoke(webView,jsLoader);
+            } catch(Exception e) {
+                //throw e;
+                ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
+                ///LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
+            }            
+        }else{
+            Log.e("localNotification","sendJavascript(ori) - static webView is null");
         }
+
     }
 
     /**
