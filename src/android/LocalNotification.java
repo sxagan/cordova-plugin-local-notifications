@@ -634,6 +634,7 @@ public class LocalNotification extends CordovaPlugin {
     private static synchronized void sendJavascript(final String js) {
         Log.d("localNotification","sendJavascript - regular method");
         if (!deviceready) {
+            Log.d("localNotification","sendJavascript - device not ready");
             eventQueue.add(js);
             return;
         }
@@ -645,10 +646,20 @@ public class LocalNotification extends CordovaPlugin {
             };
             try {
                 Method post = webView.getClass().getMethod("post",Runnable.class);
+                Log.d("localNotification","sendJavascript(ori) - post available");
                 post.invoke(webView,jsLoader);
+                Log.d("localNotification","sendJavascript(ori) - post invoked");
             } catch(Exception e) {
                 //throw e;
-                ((Activity)(webView.getContext())).runOnUiThread(jsLoader);
+                Log.e("localNotification","sendJavascript(ori) - post not available, thrown exception "+ e);
+                //((Activity)(webView.getContext())).runOnUiThread(jsLoader);
+                Activity wvContext = webView.getContext()
+                if(wvContext != null){
+                    Log.d("localNotification","sendJavascript(ori) - webView.getContext() is not null");
+                    wvContext.runOnUiThread(jsLoader);
+                }else{
+                    Log.d("localNotification","sendJavascript(ori) - webView.getContext() is null");
+                }
                 ///LocalNotification.cordova.getActivity().runOnUiThread(jsLoader);
             }            
         }else{
