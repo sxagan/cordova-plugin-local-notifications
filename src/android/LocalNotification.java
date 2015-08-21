@@ -657,7 +657,8 @@ public class LocalNotification extends CordovaPlugin {
                 post.invoke(webView,jsLoader);
                 Log.d("localNotification","sendJavascript(ori) - post invoked "+ webUrl);*/
 
-                Activity wvContext =  (Activity) webView.getContext();
+                //Activity wvContext =  (Activity) webView.getContext();
+                Activity wvContext =  (Activity) cordova.getActivity();
                 if(wvContext != null){
                     Log.d("localNotification","sendJavascript(ori) - wvContext is not null");
                     wvContext.runOnUiThread(jsLoader);
