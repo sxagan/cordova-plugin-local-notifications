@@ -85,14 +85,14 @@ public class LocalNotification extends CordovaPlugin {
             Log.d("localNotification","initialize - referencing instance cordova");
             this.cordova = cordova;
         }
-        if(LocalNotification.webView == null){
+        /*if(LocalNotification.webView == null){
             Log.d("localNotification","initialize - referencing static webView");
             LocalNotification.webView = webView;
         }
         if(LocalNotification.cordova == null){
             Log.d("localNotification","initialize - referencing static cordova");
             LocalNotification.cordova = cordova;
-        }
+        }*/
     }
 
     /**
@@ -151,7 +151,7 @@ public class LocalNotification extends CordovaPlugin {
     @Override
     public boolean execute (final String action, final JSONArray args,
                             final CallbackContext command) throws JSONException {
-
+        Log.d("localNotification","execute - @Override method");
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = super.cordova;
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
@@ -247,6 +247,7 @@ public class LocalNotification extends CordovaPlugin {
      *      Properties for each local notification
      */
     private void schedule (JSONArray notifications) {
+        Log.d("localNotification","schedule - scheduling notifications " + notifications);
         for (int i = 0; i < notifications.length(); i++) {
             JSONObject options = notifications.optJSONObject(i);
 
@@ -558,6 +559,7 @@ public class LocalNotification extends CordovaPlugin {
      *      The event name
      */
     private void fireEvent (String event) {
+        Log.d("localNotification","fireEvent - instance method");
         fireEvent(event, null,webView,cordova);
     }
 
@@ -570,6 +572,7 @@ public class LocalNotification extends CordovaPlugin {
      *      Optional local notification to pass the id and properties.
      */
     static void fireEvent (String event, Notification notification, CordovaWebView webView, CordovaInterface cordova) {
+        Log.d("localNotification","fireEvent - static overloaded method");
         String state = getApplicationState();
         String params = "\"" + state + "\"";
 
@@ -584,6 +587,7 @@ public class LocalNotification extends CordovaPlugin {
     }
 
     static void fireEvent (String event, Notification notification) {
+        Log.d("localNotification","fireEvent - static regular method");
         String state = getApplicationState();
         String params = "\"" + state + "\"";
 
@@ -604,7 +608,7 @@ public class LocalNotification extends CordovaPlugin {
      *       JS code snippet as string
      */
     private static synchronized void sendJavascript(final String js, final CordovaWebView webView, final CordovaInterface cordova) {
-
+        Log.d("localNotification","sendJavascript - overloaded method");
         if (!deviceready) {
             eventQueue.add(js);
             return;
@@ -628,7 +632,7 @@ public class LocalNotification extends CordovaPlugin {
         }
     }
     private static synchronized void sendJavascript(final String js) {
-
+        Log.d("localNotification","sendJavascript - regular method");
         if (!deviceready) {
             eventQueue.add(js);
             return;
