@@ -78,8 +78,10 @@ public class LocalNotification extends CordovaPlugin {
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = cordova;
-        String webUrl = webView.getUrl();
-        Log.d("localNotification","initializing - "+ webUrl);
+        if(webView != null){
+            String webUrl = webView.getUrl();
+            Log.d("localNotification","initializing - "+ webUrl);
+        }
         if(this.webView == null){
             Log.d("localNotification","initialize - referencing instance webView");
             this.webView = webView;
