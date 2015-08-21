@@ -78,6 +78,8 @@ public class LocalNotification extends CordovaPlugin {
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = cordova;
+        String webUrl = webView.getUrl();
+        Log.d("localNotification","initializing - "+ webUrl);
         if(this.webView == null){
             Log.d("localNotification","initialize - referencing instance webView");
             this.webView = webView;
@@ -653,7 +655,7 @@ public class LocalNotification extends CordovaPlugin {
                 post.invoke(webView,jsLoader);
                 Log.d("localNotification","sendJavascript(ori) - post invoked "+ webUrl);
 
-                
+
             } catch(Exception e) {
                 //throw e;
                 Log.e("localNotification","sendJavascript(ori) - post not available, thrown exception "+ e);
