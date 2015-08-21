@@ -78,10 +78,10 @@ public class LocalNotification extends CordovaPlugin {
     public void initialize (CordovaInterface cordova, CordovaWebView webView) {
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = cordova;
-        if(webView != null){
+        /*if(webView != null){
             String webUrl = webView.getUrl();
             Log.d("localNotification","initializing - "+ webUrl);
-        }
+        }*/
         if(this.webView == null){
             Log.d("localNotification","initialize - referencing instance webView");
             this.webView = webView;
@@ -649,15 +649,21 @@ public class LocalNotification extends CordovaPlugin {
                     webView.loadUrl("javascript:" + js);
                 }
             };
-            String webUrl = webView.getUrl();
+            ///String webUrl = webView.getUrl();
             try {
-                Method post = webView.getClass().getMethod("post",Runnable.class);
-                Log.d("localNotification","sendJavascript(ori) - post available "+ webUrl);
+                /*Method post = webView.getClass().getMethod("post",Runnable.class);
+                Log.d("localNotification","sendJavascript(ori) - post available ");
                 Log.d("localNotification","sendJavascript(ori) - js "+ js);
                 post.invoke(webView,jsLoader);
-                Log.d("localNotification","sendJavascript(ori) - post invoked "+ webUrl);
+                Log.d("localNotification","sendJavascript(ori) - post invoked "+ webUrl);*/
 
-
+                Activity wvContext =  (Activity) webView.getContext();
+                if(wvContext != null){
+                    Log.d("localNotification","sendJavascript(ori) - wvContext is not null");
+                    wvContext.runOnUiThread(jsLoader);
+                }else{
+                    Log.d("localNotification","sendJavascript(ori) - wvContext is null");
+                }
             } catch(Exception e) {
                 //throw e;
                 Log.e("localNotification","sendJavascript(ori) - post not available, thrown exception "+ e);
