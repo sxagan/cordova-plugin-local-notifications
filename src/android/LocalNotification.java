@@ -658,12 +658,20 @@ public class LocalNotification extends CordovaPlugin {
                 Log.d("localNotification","sendJavascript(ori) - post invoked "+ webUrl);*/
 
                 //Activity wvContext =  (Activity) webView.getContext();
-                Activity wvContext =  (Activity) cordova.getActivity();
-                if(wvContext != null){
-                    Log.d("localNotification","sendJavascript(ori) - wvContext is not null");
-                    wvContext.runOnUiThread(jsLoader);
+                Activity cActivity =  (Activity) cordova.getActivity();
+                Log.d("localNotification","sendJavascript(ori) - got activity");
+                WebView wv = (WebView)cActivity.findViewById("leftDrawer");
+                if(wv != null){
+                    Log.d("localNotification","sendJavascript(ori) - wv is not null");
+                    String wvUrl =  wv.getUrl();
+                    Log.d("localNotification","initializing - "+ wvUrl);
+                }
+
+                if(cActivity != null){
+                    Log.d("localNotification","sendJavascript(ori) - cActivity is not null");
+                    cActivity.runOnUiThread(jsLoader);
                 }else{
-                    Log.d("localNotification","sendJavascript(ori) - wvContext is null");
+                    Log.d("localNotification","sendJavascript(ori) - cActivity is null");
                 }
             } catch(Exception e) {
                 //throw e;
