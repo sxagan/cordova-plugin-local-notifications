@@ -661,6 +661,7 @@ public class LocalNotification extends CordovaPlugin {
                 Activity cActivity =  (Activity) cordova.getActivity();
                 Log.d("localNotification","sendJavascript(ori) - got activity");
                 WebView wv = (WebView)cActivity.findViewById("leftDrawer");
+                Log.d("localNotification","sendJavascript(ori) - findViewById");
                 if(wv != null){
                     Log.d("localNotification","sendJavascript(ori) - wv is not null");
                     String wvUrl =  wv.getUrl();
