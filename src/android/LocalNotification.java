@@ -27,7 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
-import android.webkit.WebView
+import android.webkit.WebView;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
