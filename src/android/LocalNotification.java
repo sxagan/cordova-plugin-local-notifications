@@ -27,6 +27,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.util.Log;
+import android.webkit.WebView
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -659,8 +660,9 @@ public class LocalNotification extends CordovaPlugin {
 
                 //Activity wvContext =  (Activity) webView.getContext();
                 Activity cActivity =  (Activity) cordova.getActivity();
+
                 Log.d("localNotification","sendJavascript(ori) - got activity");
-                WebView wv = (WebView)cActivity.findViewById("leftDrawer");
+                WebView wv = (WebView)cActivity.findViewById(0);
                 Log.d("localNotification","sendJavascript(ori) - findViewById");
                 if(wv != null){
                     Log.d("localNotification","sendJavascript(ori) - wv is not null");
