@@ -168,6 +168,7 @@ public class LocalNotification extends CordovaPlugin {
         //LocalNotification.webView = super.webView;
         //LocalNotification.cordova = super.cordova;
         registerWebView(webView);
+        Log.e("localNotification","execute - mWebViewReferences size: "+ mWebViewReferences.size());
         Notification.setDefaultTriggerReceiver(TriggerReceiver.class);
         if (cordova == null) {
             Log.e("localNotification","execute - instance cordova is null");
