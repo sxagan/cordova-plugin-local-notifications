@@ -44,6 +44,11 @@ exports.setDefaults = function (defaults) {
     this.core.setDefaults(defaults);
 };
 
+exports._init = function (opts, callback, scope) {
+    console.log('fire _init')
+    this.core._init([], callback, scope);
+};
+
 /**
  * Schedule a new local notification.
  *

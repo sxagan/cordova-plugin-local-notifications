@@ -52,6 +52,10 @@ exports.setDefaults = function (newDefaults) {
     }
 };
 
+exports._init = function (opts, callback, scope) {
+    this.exec('_init', [], callback, scope);
+}
+
 /**
  * Schedule a new local notification.
  *
