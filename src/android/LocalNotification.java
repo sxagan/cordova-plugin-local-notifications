@@ -638,13 +638,18 @@ public class LocalNotification extends CordovaPlugin {
         return webViewReference;
     }
     private static WebViewReference createWebViewReference(CordovaWebView webView) {
+        String url = webView.getUrl();
+        Log.d("localNotification","createWebViewReference - creating view reference - "+ url);
+        Log.d("localNotification","createWebViewReference - webView.toString() - "+ webView.toString());
         WebViewReference webViewReference = new WebViewReference(webView);
         mWebViewReferences.add(webViewReference);
         return webViewReference;
     }
 
     private static void sendJavascriptToAllWebViews(final String js) {
+        Log.d("localNotification","sendJavascriptToAllWebViews - WebView list size - "+ mWebViewReferences.size());
         for (WebViewReference webViewReference : mWebViewReferences) {
+            Log.d("localNotification","sendJavascriptToAllWebViews - Running sendJavascript on webview - "+ webViewReference.toString());
             sendJavascript(js, webViewReference.getWebView());
         }
     }
