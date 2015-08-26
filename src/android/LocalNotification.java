@@ -634,7 +634,7 @@ public class LocalNotification extends CordovaPlugin {
                 webViewReference = item;
                 break;
             }*/
-            if (item.getUrl() == webView.getUrl()) {
+            if (item.toString() == webView.toString()) {
                 webViewReference = item;
                 break;
             }
@@ -872,7 +872,7 @@ public class LocalNotification extends CordovaPlugin {
             if (getWebView() != null) {
                 webViewStr = getWebView().toString();
             }
-            return "WebViewReference -> " + webViewStr;
+            return webViewStr;
         }
 
     }
