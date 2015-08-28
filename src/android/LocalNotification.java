@@ -630,14 +630,14 @@ public class LocalNotification extends CordovaPlugin {
     private static WebViewReference findWebViewReference(CordovaWebView webView) {
         WebViewReference webViewReference = null;
         for (WebViewReference item : mWebViewReferences) {
-            /*if (item.getWebView() == webView) {
-                webViewReference = item;
-                break;
-            }*/
-            if (item.toString() == webView.toString()) {
+            if (item.getWebView() == webView) {
                 webViewReference = item;
                 break;
             }
+            /*if (item.toString() == webView.toString()) {
+                webViewReference = item;
+                break;
+            }*/
         }
         return webViewReference;
     }
